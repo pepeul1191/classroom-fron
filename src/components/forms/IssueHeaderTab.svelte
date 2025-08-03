@@ -226,7 +226,7 @@
 <div class="row subtitle-row">
   <h4 class="subtitle">Datos de la Incidencia</h4>
 </div>
-<div class="container">
+<div class="row">
   <form class="mb-4">
     <div class="row">
       <div class="col-md-9">

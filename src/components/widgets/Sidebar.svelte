@@ -1,8 +1,13 @@
 <script>
   import { navigate } from 'svelte-routing';
   import { activeLink } from '../../helpers/store.js';
+	import { onMount } from 'svelte';
 
-  export let userType;
+  export let userRoles;
+
+  onMount(() => {
+
+  });
 </script>
 
 <div class="sidebar d-none d-md-block">
@@ -15,38 +20,42 @@
         <i class="fa fa-pie-chart me-2" aria-hidden="true"></i> Dashboard
       </a>
     </li>
+    {#each userRoles as r}
+      {#if r.name == 'admin'}
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fa fa-users me-2"></i> Usuarios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fa fa-map me-2"></i> Locaciones
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" class:active={$activeLink === '/issues'} href="/issues" on:click|preventDefault={() => {navigate('/issues')}}>
+            <i class="fa fa-bug me-2"></i> Docentes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" class:active={$activeLink === '/issues'} href="/issues" on:click|preventDefault={() => {navigate('/issues')}}>
+            <i class="fa fa-bug me-2"></i> Alumnos
+          </a>
+        </li>
+      {/if}
+      {#if r.name == 'teacher'}
+        <li class="nav-item">
+          <a class="nav-link" class:active={$activeLink === '/issues'} href="/issues" on:click|preventDefault={() => {navigate('/issues')}}>
+            <i class="fa fa-bug me-2"></i> Cursos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" class:active={$activeLink === '/issues'} href="/issues" on:click|preventDefault={() => {navigate('/issues')}}>
+            <i class="fa fa-bug me-2"></i> Mensajes
+          </a>
+        </li>
+      {/if}
+    {/each}
 
-    <li class="nav-item">
-      <a class="nav-link" class:active={$activeLink === '/assets'} href="/assets" on:click|preventDefault={() => {navigate('/assets')}}>
-        <i class="fa fa-cogs me-2"></i> Activos
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" class:active={$activeLink === '/issues'} href="/issues" on:click|preventDefault={() => {navigate('/issues')}}>
-        <i class="fa fa-bug me-2"></i> Incidencias
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" class:active={$activeLink === '/tags'} href="/tags" on:click|preventDefault={() => {navigate('/tags')}}>
-        <i class="fa fa-tags me-2"></i> Etiquetas
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" class:active={$activeLink === '/employees'} href="/employees" on:click|preventDefault={() => {navigate('/employees')}}>
-        <i class="fa fa-users me-2"></i> Colaboradores
-      </a>
-    </li>
-
-    <!-- Rutas específicas para Admin -->
-    {#if userType === 'admin'}
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fa fa-user-shield me-2"></i> Usuarios
-        </a>
-      </li>
-    {/if}
   </ul>
 </div>

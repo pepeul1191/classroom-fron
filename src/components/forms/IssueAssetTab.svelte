@@ -48,53 +48,51 @@
 
 </style>
 
-<div class="container my-2">
-  <div class="row subtitle-row">
-    <h4 class="subtitle">Asociar Activos de la Incidencia</h4>
+<div class="row subtitle-row">
+  <h4 class="subtitle">Asociar Activos de la Incidencia</h4>
+</div>
+{#if alertMessage.text != ''}
+  <div class="alert alert-{alertMessage.status}" role="alert">
+    {alertMessage.text}
   </div>
-  {#if alertMessage.text != ''}
-    <div class="alert alert-{alertMessage.status}" role="alert">
-      {alertMessage.text}
-    </div>
-  {/if}
-  <div class="container">
-    <AssetFilters 
-      on:search={handleSearchFilter} 
-      on:clean={handleCleanFilter} 
-      showTitle={false}/>
-  </div>
-  <div class="container">
-    <div class="col-md-12">
-      <DataTable 
-        bind:this={assetsDataTable}
-        fetchURL={URLS.TICKETS_SERVICE + 'api/v1/systems/' + id + '/users'}
-        columnKeys={['id', 'username', 'email', 'registered']}
-        columnTypes={['id', 'td', 'td', 'radiobuttonAll']}
-        columnNames={['ID', 'Nombre', 'Descripción', 'Registrado', 'Acciones']}
-        columnStyles={['max-width: 50px;', 'max-width: 250px;', 'max-width: 150px;', '']}
-        tdStyles={['', '', '', 'padding-left: 40px;']}
-        columnClasses={['d-none', '', '', '', 'text-end']}
-        messages = {{
-          success: 'Datos actualizados', 
-          errorNetwork: 'No se pudo listar los usuarios. No hay conexión con el servidor.',
-          notFound: 'No se pudo listar los usuarios. Recurso no encontrado.',
-          serverError:'No se pudo listar los usuarios. Error interno del servidor',
-          requestError: 'No se pudo listar los usuarios. No se recibió respuesta del servidor',
-          otherError: 'No se pudo listar los usuarios. Ocurrió un error no esperado al traer los datos del servidor',
-        }}
-        saveButton={{
-          display: true,
-          disabled: false,
-        }}
-        pagination = {{
-          display: true,
-          step: 10,
-          totalPages: 0,
-          actualPage: 1
-        }}
-        actionButtons={[]} 
-        jwtToken={localStorage.getItem('jwtToken')}
-      />
-    </div>
+{/if}
+<div class="row">
+  <AssetFilters 
+    on:search={handleSearchFilter} 
+    on:clean={handleCleanFilter} 
+    showTitle={false}/>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <DataTable 
+      bind:this={assetsDataTable}
+      fetchURL={URLS.TICKETS_SERVICE + 'api/v1/systems/' + id + '/users'}
+      columnKeys={['id', 'username', 'email', 'registered']}
+      columnTypes={['id', 'td', 'td', 'radiobuttonAll']}
+      columnNames={['ID', 'Nombre', 'Descripción', 'Registrado', 'Acciones']}
+      columnStyles={['max-width: 50px;', 'max-width: 250px;', 'max-width: 150px;', '']}
+      tdStyles={['', '', '', 'padding-left: 40px;']}
+      columnClasses={['d-none', '', '', '', 'text-end']}
+      messages = {{
+        success: 'Datos actualizados', 
+        errorNetwork: 'No se pudo listar los usuarios. No hay conexión con el servidor.',
+        notFound: 'No se pudo listar los usuarios. Recurso no encontrado.',
+        serverError:'No se pudo listar los usuarios. Error interno del servidor',
+        requestError: 'No se pudo listar los usuarios. No se recibió respuesta del servidor',
+        otherError: 'No se pudo listar los usuarios. Ocurrió un error no esperado al traer los datos del servidor',
+      }}
+      saveButton={{
+        display: true,
+        disabled: false,
+      }}
+      pagination = {{
+        display: true,
+        step: 10,
+        totalPages: 0,
+        actualPage: 1
+      }}
+      actionButtons={[]} 
+      jwtToken={localStorage.getItem('jwtToken')}
+    />
   </div>
 </div>

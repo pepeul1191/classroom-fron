@@ -1,0 +1,47 @@
+@startuml
+skinparam componentStyle rectangle
+
+' Definición de nodos (dispositivos o entornos)
+node "Cliente" {
+  [Navegador Web] as browser
+  [Frontend Svelte] as SvelteApp 
+}
+
+browser --> SvelteApp
+
+node "Servidor Web (Cloud)" {
+  [Frontend \n ExpressJs + Svelte] as frontend
+  [MS Accesos \n Go Gin] as accessService
+  [DB Accesos \n Sqlite3] as accessDB
+  [MS Archivos] as fileService
+  [MS Classroom] as classroomService
+  [DB Classroom] as classroomDB
+  [MS Mensagería] as messagesService
+  [MS Calendario] as calendarService
+}
+
+' Relaciones entre componentes
+frontend --> browser : Archivos estáticos, tokens y sessions
+
+accessService --> frontend : Autentica y Genera JWT
+fileService --> frontend : Autentica y Genera JWT
+classroomService --> frontend : Autentica y Genera JWT
+messagesService --> frontend : Autentica y Genera JWT
+calendarService --> frontend : Autentica y Genera JWT
+
+accessService --> accessDB : Consultas SQL + ORM
+classroomService --> classroomDB : Consultas SQL + ORM
+
+accessService --> SvelteApp : API Reset http://locahost:5000
+fileService --> SvelteApp : API Reset http://locahost:3000
+classroomService --> SvelteApp : API Reset http://locahost:9292
+messagesService --> SvelteApp : API Reset http://locahost:4000
+calendarService --> SvelteApp : API Reset http://locahost:3000
+
+accessService --> frontend : Autentica y Genera JWT
+fileService --> frontend : Autentica y Genera JWT
+classroomService --> frontend : Autentica y Genera JWT
+messagesService --> frontend : Autentica y Genera JWT
+calendarService --> frontend : Autentica y Genera JWT
+
+@enduml

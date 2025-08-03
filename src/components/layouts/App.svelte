@@ -12,7 +12,7 @@
 	import Asset from '../pages/app/Asset.svelte';
   export let basepath = '/';
 
-  let userType = '';
+  let userRoles = [];
   let username = '';
   let userImage = '';
 
@@ -36,17 +36,20 @@
         if (xhr.status >= 200 && xhr.status < 300) {
           var response = JSON.parse(xhr.responseText);
           var tokens = response.tokens;
-          var employee = response.employee;
+          var person = response.person;
+          var user = response.user;
 
           // Guardar ambos tokens en localStorage
           if (tokens) {
-            localStorage.setItem('jwtTicketsToken', tokens.tickets);
+            localStorage.setItem('jwtClassroomToken', tokens.classroom);
             localStorage.setItem('jwtFilesToken', tokens.files);
             localStorage.setItem('jwtAccessToken', tokens.access);
-            localStorage.setItem('full_name', employee.last_names + ', ' + employee.names);
-            localStorage.setItem('image_url', URLS.FILES_SERVICE + employee.image_url);
-            username = employee.last_names + ', ' + employee.names;
-            userImage = URLS.FILES_SERVICE + employee.image_url;
+            localStorage.setItem('full_name', person.last_names + ', ' + person.names);
+            localStorage.setItem('image_url', URLS.FILES_SERVICE + person.image_url);
+            localStorage.setItem('roles', JSON.stringify(user.roles));
+            username = person.last_names + ', ' + person.names;
+            userImage = URLS.FILES_SERVICE + person.image_url;
+            userRoles = user.roles;
           }
 
           console.log('Token guardado en localStorage.');
@@ -73,11 +76,12 @@
     const jwtTicketToken = localStorage.getItem('jwtTicketsToken');
     const jwtFileToken = localStorage.getItem('jwtFilesToken');
     const jwtAccessToken = localStorage.getItem('jwtAccessToken');
+    const roles = localStorage.getItem('roles');
     const fullName = localStorage.getItem('full_name');
     const imageUrl = localStorage.getItem('image_url');
 
     // Si los tokens ya están presentes, no hacemos nada
-    if (!jwtTicketToken || !jwtFileToken || !jwtAccessToken || !fullName || !imageUrl) {
+    if (!jwtTicketToken || !jwtFileToken || !jwtAccessToken || !fullName || !imageUrl || !roles) {
       fetchInfoIfMissing()
         .then(function() {
           console.log('Tokens listos para usar.');
@@ -98,7 +102,7 @@
 
 </style>
 
-<Sidebar {userType} />
+<Sidebar {userRoles} />
 <Navbar {username} {userImage} />
 
 <main class="main-content mt-5">

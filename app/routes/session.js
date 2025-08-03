@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { Router } from 'express';
 import { redirectIfLoggedIn, requireLogin } from '../configs/middlewares.js';
-import { login } from '../configs/helpers.js';
+import { login } from '../configs/services.js';
 
 const router = Router();
 dotenv.config();
@@ -38,15 +38,15 @@ router.post('/sign-in', async (req, res) => {
 
   try {
     const answer = await login(username, password);
-
+    
     if (answer.status === 200) {
       // Si el login es exitoso, almacenar los datos del usuario en la sesión
-      console.log(answer)
-      req.session.user = answer.body;
+      // console.log(answer)
+      req.session.user = answer.user;   
+      req.session.user.id = String(answer.user.id);
       req.session.tokens = answer.tokens;
-      req.session.employee = answer.employee;
-      req.session.login_at = moment().toISOString();
-
+      req.session.person = answer.person;
+      req.session.login_at = new Date();
       // Redirigir a la página principal
       return res.redirect('/');
     } else {
@@ -78,7 +78,7 @@ router.get('/session', requireLogin, (req, res) => {
     res.json({
       authenticated: true,
       user: req.session.user,
-      employee: req.session.employee,
+      person: req.session.person,
       tokens: req.session.tokens,
       sessionId: req.sessionID,
       createdAt: req.session.cookie.expires
