@@ -361,6 +361,8 @@
       })
       .catch(function (error) {
         console.error(error);
+        data = [];
+        data = data;
         if(error.code == "ERR_NETWORK"){
           dispatch('alert', { 
             text: messages.errorNetwork,

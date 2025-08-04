@@ -67,9 +67,10 @@
         action: (record) => {
           //systemDataTable.askToDeleteRow(record, 'id');
           //console.log(record);
-          departmentDataTable.deleteRow(record, 'id');
-          if(record.id == roleId){
+          departmentDataTable.deleteRow(record, '_id');
+          if(record.name == departament){
             displayProvinces = false;
+            displayDistricts = false;
           }
         }
       },
@@ -87,6 +88,7 @@
           districtsDataTable.fetchURL = URLS.CLASSROOM_SERVICE + `api/v1/locations/provinces/${record._id}/districts`;
           districtsDataTable.saveURL = URLS.CLASSROOM_SERVICE + `api/v1/locations/provinces/${record._id}/districts`;
           districtsDataTable.list();
+          console.log(districtsDataTable.data.length)
           displayDistricts = true;
         }
       },
@@ -97,7 +99,10 @@
         action: (record) => {
           //systemDataTable.askToDeleteRow(record, 'id');
           //console.log(record);
-          provincesDataTable.deleteRow(record, 'id');
+          provincesDataTable.deleteRow(record, '_id');
+          if(record.name == province){
+            displayDistricts = false;
+          }
         }
       },
     ];
@@ -111,7 +116,7 @@
         action: (record) => {
           //systemDataTable.askToDeleteRow(record, 'id');
           //console.log(record);
-          districtsDataTable.deleteRow(record, 'id');
+          districtsDataTable.deleteRow(record, '_id');
         }
       },
     ];
@@ -183,7 +188,7 @@
         bind:this={provincesDataTable}
         fetchURL={URLS.CLASSROOM_SERVICE + `api/v1/locations/departments/${departmentId}/provinces`}
         saveURL={URLS.CLASSROOM_SERVICE + `api/v1/locations/departments/${departmentId}/provinces`}
-        columnKeys={['id', 'name', ]}
+        columnKeys={['_id', 'name', ]}
         columnTypes={['id', 'input[text]', ]}
         columnNames={['ID', 'Nombre', 'Acciones']}
         columnStyles={['max-width: 50px;', 'max-width: 150px;', 'max-width: 150px;']}
@@ -226,7 +231,7 @@
         bind:this={districtsDataTable}
         fetchURL={URLS.CLASSROOM_SERVICE + `api/v1/locations/provinces/${provinceId}/districts`}
         saveURL={URLS.CLASSROOM_SERVICE + `api/v1/locations/provinces/${provinceId}/districts`}
-        columnKeys={['id', 'name', ]}
+        columnKeys={['_id', 'name', ]}
         columnTypes={['id', 'input[text]', ]}
         columnNames={['ID', 'Nombre', 'Acciones']}
         columnStyles={['max-width: 50px;', 'max-width: 150px;', 'max-width: 150px;']}
