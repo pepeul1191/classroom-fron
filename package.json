@@ -15,7 +15,7 @@
     "dev-accesos": "bash -c 'cd /home/pepe/Documentos/go/accesos && go run main.go 2>/dev/null'",
     "dev-files": "bash -c 'cd /home/pepe/Documentos/ruby/files && npm run dev 2>/dev/null'",
     "dev-front": "npm run dev",
-    "dev-all": "concurrently --names \"ClassRoom,Accesos,Files,Front\" -c \"bgMagenta.bold,bgCyan.bold,bgGreen.bold,bgWhite.bold\" \"npm run dev-classroom-koa\" \"npm run dev-accesos\" \"npm run dev-files\" \"npm run dev-front\"",
+    "dev-all": "concurrently --names \"ClassRoom,Accesos,Files,Front\" -c \"bgMagenta.bold,bgCyan.bold,bgGreen.bold,bgWhite.bold\" \"npm run dev-classroom-gin\" \"npm run dev-accesos\" \"npm run dev-files\" \"npm run dev-front\"",
     "svelte": "rollup -c -w",
     "start": "node ./bin/www"
   },

@@ -7,6 +7,8 @@ dotenv.config();
 
 const sharedRoutes = [
   '/',
+  '/locations',
+
   '/assets',
   '/employees',
   '/issues',

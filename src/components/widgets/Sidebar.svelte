@@ -28,7 +28,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" class:active={$activeLink === '/locations'} href="/locations" on:click|preventDefault={() => {navigate('/locations')}}>
             <i class="fa fa-map me-2"></i> Locaciones
           </a>
         </li>

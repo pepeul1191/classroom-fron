@@ -10,6 +10,7 @@
   import Employee from '../pages/app/Employee.svelte';
   import Tag from '../pages/app/Tag.svelte';
 	import Asset from '../pages/app/Asset.svelte';
+	import Location from '../pages/admin/Location.svelte';
   export let basepath = '/';
 
   let userRoles = [];
@@ -109,6 +110,8 @@
   <div class="container-fluid">
     <Router basepath="{basepath}">
       <Route path="/" component={Home} />
+      <Route path="/locations" component={Location} />
+
       <Route path="/assets" component={Asset} />
       <Route path="/issues" component={Issue} />
       <Route path="/tags" component={Tag} />
