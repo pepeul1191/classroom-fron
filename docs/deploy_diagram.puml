@@ -1,47 +1,59 @@
 @startuml
 skinparam componentStyle rectangle
+skinparam node {
+  BackgroundColor<<Frontend>> #FDF6E3
+  BackgroundColor<<Backend>> #F5F5F5
+  BackgroundColor<<Database>> #EFEFEF
+}
 
-' Definición de nodos (dispositivos o entornos)
+' Cliente
 node "Cliente" {
   [Navegador Web] as browser
-  [Frontend Svelte] as SvelteApp 
+  [Frontend Svelte] as SvelteApp
+  browser --> SvelteApp
 }
 
-browser --> SvelteApp
-
+' Servidor Web
 node "Servidor Web (Cloud)" {
-  [Frontend \n ExpressJs + Svelte] as frontend
-  [MS Accesos \n Go Gin] as accessService
-  [DB Accesos \n Sqlite3] as accessDB
-  [MS Archivos] as fileService
-  [MS Classroom] as classroomService
-  [DB Classroom] as classroomDB
-  [MS Mensagería] as messagesService
-  [MS Calendario] as calendarService
+
+  ' Frontend
+  component "Frontend\nExpressJs + Svelte" <<Frontend>> as frontend
+
+  ' Backend: Microservicios
+  node "Microservicios Backend" {
+    component "MS Accesos\nGo Gin" <<Backend>> as accessService
+    component "MS Archivos" <<Backend>> as fileService
+    component "MS Classroom" <<Backend>> as classroomService
+    component "MS Mensajería" <<Backend>> as messagesService
+    component "MS Calendario" <<Backend>> as calendarService
+  }
+
+  ' Bases de datos
+  node "Bases de Datos" {
+    database "DB Accesos\nSqlite3" <<Database>> as accessDB
+    database "DB Classroom" <<Database>> as classroomDB
+  }
 }
 
-' Relaciones entre componentes
-frontend --> browser : Archivos estáticos, tokens y sessions
+' Relación Cliente -> Frontend
+frontend --> browser : Entrega HTML/CSS/JS + Tokens
 
-accessService --> frontend : Autentica y Genera JWT
-fileService --> frontend : Autentica y Genera JWT
-classroomService --> frontend : Autentica y Genera JWT
-messagesService --> frontend : Autentica y Genera JWT
-calendarService --> frontend : Autentica y Genera JWT
+' Frontend llama a microservicios (JWT Auth)
+frontend --> accessService : API JWT
+frontend --> fileService : API JWT
+frontend --> classroomService : API JWT
+frontend --> messagesService : API JWT
+frontend --> calendarService : API JWT
 
-accessService --> accessDB : Consultas SQL + ORM
-classroomService --> classroomDB : Consultas SQL + ORM
+' Microservicios se conectan a DB si corresponde
+accessService --> accessDB : ORM / SQL
+classroomService --> classroomDB : ORM / SQL
 
-accessService --> SvelteApp : API Reset http://locahost:5000
-fileService --> SvelteApp : API Reset http://locahost:3000
-classroomService --> SvelteApp : API Reset http://locahost:9292
-messagesService --> SvelteApp : API Reset http://locahost:4000
-calendarService --> SvelteApp : API Reset http://locahost:3000
-
-accessService --> frontend : Autentica y Genera JWT
-fileService --> frontend : Autentica y Genera JWT
-classroomService --> frontend : Autentica y Genera JWT
-messagesService --> frontend : Autentica y Genera JWT
-calendarService --> frontend : Autentica y Genera JWT
+' Microservicios exponen API Reset a SvelteApp
+SvelteApp --> accessService : http://localhost:5000
+SvelteApp --> fileService : http://localhost:3000
+SvelteApp --> classroomService : http://localhost:9292
+SvelteApp --> messagesService : http://localhost:4000
+SvelteApp --> calendarService : http://localhost:3000
 
 @enduml
