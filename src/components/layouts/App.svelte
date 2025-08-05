@@ -11,6 +11,8 @@
   import Tag from '../pages/app/Tag.svelte';
 	import Asset from '../pages/app/Asset.svelte';
 	import Location from '../pages/admin/Location.svelte';
+	import Teacher from '../pages/admin/Teacher.svelte';
+	import TeacherDetail from '../pages/admin/TeacherDetail.svelte';
   export let basepath = '/';
 
   let userRoles = [];
@@ -111,6 +113,8 @@
     <Router basepath="{basepath}">
       <Route path="/" component={Home} />
       <Route path="/locations" component={Location} />
+      <Route path="/teachers" component={Teacher} />
+      <Route path="/teachers/new" component={TeacherDetail} />
 
       <Route path="/assets" component={Asset} />
       <Route path="/issues" component={Issue} />

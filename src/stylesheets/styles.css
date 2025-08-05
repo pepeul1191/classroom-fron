@@ -57,13 +57,22 @@ body {
     color: #FDFDFD !important;
   }
 
-  .page-link, .card-body, .card{
+  .page-link, .card-body, .card, .card-header{
     border-radius: 0px !important;
+  }
+
+  .card-header i{
+    margin-right: 8px;
   }
 
   .dropdown-item:active {
     background-color: #d9dbdd !important; /* Gris claro */
     color: #000 !important;
+  }
+
+  .image-preview{
+    width: 100px !important;
+    height: 90px !important;
   }
 
   .sidebar {
